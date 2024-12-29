@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useCallback } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import Title from '../components/Title';
@@ -6,7 +6,7 @@ import ProductItem from '../components/ProductItem';
 
 const Collection = () => {
 
-  const { products } = useContext(ShopContext);
+  const { products, search, showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -28,21 +28,35 @@ const Collection = () => {
       setSubCategory(prev => [...prev, e.target.value])
     }
   }
-
-  const applyFilter = () => {
+  
+  const applyFilter = useCallback(() => {
     let productsCopy = products.slice();
-
-    if(category.length > 0){
-      productsCopy = productsCopy.filter(item => category.includes(item.category))
+  
+    if (showSearch && search) {
+      productsCopy = productsCopy.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
     }
-    if(subCategory.length > 0){
-      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory))
+  
+    if (category.length > 0) {
+      productsCopy = productsCopy.filter(item => category.includes(item.category));
     }
+  
+    if (subCategory.length > 0) {
+      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
+    }
+  
+    // Avoid setting state if the filtered products are the same
+    setFilterProducts(prev => {
+      if (JSON.stringify(prev) !== JSON.stringify(productsCopy)) {
+        return productsCopy;
+      }
+      return prev;
+    });
+  }, [products, showSearch, search, category, subCategory]);
+  
 
-    setFilterProducts(productsCopy)
-  }
-
-  const sortProduct = () =>{
+  const sortProduct = useCallback(() =>{
     let fpCopy = filterProducts.slice();
 
     switch (sortType){
@@ -56,7 +70,7 @@ const Collection = () => {
         applyFilter();
         break;
     }
-  }
+  },[sortType, filterProducts])
 
   // useEffect(()=>{
   //   setFilterProducts(products);
@@ -68,11 +82,11 @@ const Collection = () => {
   
   useEffect(()=>{
     applyFilter();
-  },[category, subCategory])
+  },[category, subCategory, search, showSearch])
 
   useEffect(()=>{
     sortProduct();
-  })
+  }, [sortType,sortProduct])
 
   return (
     <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
