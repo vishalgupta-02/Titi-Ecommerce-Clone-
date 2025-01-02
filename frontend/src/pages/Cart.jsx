@@ -14,28 +14,31 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(()=>{
-    const tempData = [];
-    for(const items in cartItems){
-      for(const item in cartItems[items]){
-        if(cartItems[items][item] >= 0 && cartItems[items][item] !== null){
-          tempData.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item]
-          })
-        }else{
-          console.log("An error occurred");
+    if(products && cartItems && products.length > 0){
+      const tempData = [];
+      for(const items in cartItems){
+        for(const item in cartItems[items]){
+          if(cartItems[items][item] >= 0 && cartItems[items][item] !== null){
+            tempData.push({
+              _id: items,
+              size: item,
+              quantity: cartItems[items][item]
+            })
+          }else{
+            console.log("An error occurred");
+          }
         }
-      }
-    } 
-    setCartData(prev => {
-      if(JSON.stringify(prev) !== JSON.stringify(tempData)){
-        return tempData;
-      }
-      return prev;
-    });
+      } 
+      setCartData(prev => {
+        if(JSON.stringify(prev) !== JSON.stringify(tempData)){
+          return tempData;
+        }
+        return prev;
+      });
+    }
+    
     // console.log(tempData);    
-  },[cartItems])
+  },[cartItems, products])
 
   return (
     <div className='border-t pt-14'>

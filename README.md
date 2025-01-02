@@ -51,3 +51,21 @@ Today we have done the following things-
     III. Exporting them to the different components using Provider with value and you can take the reference of contexts through their documentation.
 
 ### This is it for today and will learn and write more about the project tomorrow
+
+## Day-03 (Frontend Completed Approximately)
+
+Today we have done the following things-
+
+1. We have added the SearchBar component and the toast notifications in the App.jsx
+2. We created the CartTotal component which displays the total amount after calculating all the fees and services.
+3. We faced some issues on the NAvbar component and will fix it later.
+4. We created RelatedProduct component from scratch.
+5. We added addToCart, getCartCount, updateQuantity and getCartAmount function or api's in the context file.
+6. We updated the About page with Title and NewsletterBox component.
+7. We also faced some issue in Cart component where all the products are not showing up.
+8. We created the Contact page from scratch.
+9. Build the logic between SignUp and Login.
+10. We created the Orders page and PlaceOrder page also.
+11. Created the Product page where all the details of single page is displayed.
+
+### This is it for today and will try to learn and code more about the project
