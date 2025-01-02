@@ -18,6 +18,8 @@ connectCloudinary();
 app.use(express.json())
 app.use(cors({
     origin: "https://titi-frontend.vercel.app",
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }))
 
 // API ENDPOINTS
