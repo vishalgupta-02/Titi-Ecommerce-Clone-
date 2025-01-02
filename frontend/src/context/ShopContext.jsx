@@ -9,7 +9,7 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
     
-    const currency = '₹';
+    const currency = '$';
     const deliveryFee = 10;
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const [search, setSearch] = useState('');
@@ -105,7 +105,7 @@ const ShopContextProvider = (props) => {
 
     const getProductData = async() => {
         try{
-            const response = await axios.post(backendUrl + "/api/product/list")
+            const response = await axios.get(backendUrl + "/api/product/list")
             if(response.data.success){
                 setProducts(response.data.products)
             }else{
@@ -167,7 +167,7 @@ const ShopContextProvider = (props) => {
 
     return (
         <ShopContext.Provider value={value}>
-            {props.children}
+            {props.children}           
         </ShopContext.Provider>
     )
 }

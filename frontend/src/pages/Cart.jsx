@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
 
   const navigate = useNavigate();
-  const context = useContext(ShopContext);
-  const { products, currency, cartItems, updateQuantity } = context || [];
-  // const { products, currency, cartItems, updateQuantity } = useContext(ShopContext);
+  // const context = useContext(ShopContext);
+  // const { products, currency, cartItems, updateQuantity } = context || [];
+  const { products, currency, cartItems, updateQuantity } = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(()=>{
@@ -18,27 +18,30 @@ const Cart = () => {
       const tempData = [];
       for(const items in cartItems){
         for(const item in cartItems[items]){
-          if(cartItems[items][item] >= 0 && cartItems[items][item] !== null){
+          if(cartItems[items][item] > 0){ //&& cartItems[items][item] !== null
             tempData.push({
               _id: items,
               size: item,
-              quantity: cartItems[items][item]
+              quantity: cartItems[items][item],
             })
           }else{
             console.log("An error occurred");
           }
         }
       } 
-      setCartData(prev => {
-        if(JSON.stringify(prev) !== JSON.stringify(tempData)){
-          return tempData;
-        }
-        return prev;
-      });
+      // setCartData(prev => {
+      //   if(JSON.stringify(prev) !== JSON.stringify(tempData)){
+      //     return tempData;
+      //   }
+      //   return prev;
+      // });
+      setCartData(tempData);
+    } else{
+      console.log("Items cannot be Fetched");
     }
     
     // console.log(tempData);    
-  },[cartItems, products])
+  },[cartItems])
 
   return (
     <div className='border-t pt-14'>
@@ -48,13 +51,9 @@ const Cart = () => {
       <div className='border border-black w-full py-10'>
         {
           cartData.map((item, index)=>{
+            
             const productData = products.find((product)=> product._id === item._id);
-            
-            if (!productData) {
-              return null;
-            }
-            // console.log(productData);
-            
+
             return (
               <div key={index} className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
                 <div className='flex items-start gap-6'>
