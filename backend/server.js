@@ -17,7 +17,7 @@ connectCloudinary();
 // MIDDLEWARES
 app.use(express.json())
 app.use(cors({
-    origin: "https://titi-frontend.vercel.app/",
+    origin: "https://titi-frontend.vercel.app",
 }))
 
 // API ENDPOINTS
